@@ -81,7 +81,7 @@ func (db *PSQL) ChangeLanguage(id string, language string) error {
 
 // UpdateUser allows to update one or more user characteristics
 func (db *PSQL) UpdateUser(userID string, user *models.User) error {
-	if err := db.database.Save(&user).Error; err != nil {
+	if err := db.database.Model(user).Updates(&user).Error; err != nil {
 		return helpers.NewError(http.StatusInternalServerError, "update_user_failed", "could not update the user", err)
 	}
 	return nil

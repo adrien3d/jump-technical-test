@@ -50,18 +50,20 @@ func (db *PSQL) Find(c *store.Context, filters bson.M, model store.Model, opts .
 	}*/
 
 	var filtersQuery string
-	var filtersValues []string
+	var filtersValue0 /*, filtersValue1*/ string
 	var i int
 	for key, value := range filters {
-		filtersValues = append(filtersValues, fmt.Sprint(value))
+		//filtersValues = append(filtersValues, fmt.Sprint(value))
 		if i == 0 {
 			filtersQuery += key + " = ?"
+			filtersValue0 = fmt.Sprint(value)
 		} else {
 			filtersQuery += " AND " + key + " = ?"
+			//filtersValue1 = fmt.Sprint(value)
 		}
 		i++
 	}
-	db.database.First(&model, filtersQuery, filtersValues) // find product with code D42)
+	db.database.Where(filtersQuery, filtersValue0).First(model) // find product with code D42)
 
 	return nil
 }
@@ -89,7 +91,7 @@ func (db *PSQL) FindAll(c *store.Context, filters bson.M, results interface{}, o
 		}
 		i++
 	}
-	db.database.Where(filtersQuery, filtersValues) // find product with code D42)
+	db.database.Where(filtersQuery, filtersValues).Find(results) // find product with code D42)
 
 	return nil
 }

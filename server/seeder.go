@@ -115,10 +115,11 @@ func (a *API) SetupPostgreSeeds() error {
 		dbUser.Password = user.Password
 		dbUser.Email = user.Email
 		dbUser.Phone = user.Phone
-		store.UpdateUser(dbUser.ID, dbUser)
 		if err := store.ActivateUser(dbUser.Key /*strconv.Itoa(dbUser.ID)*/, dbUser.Email); err != nil {
 			utils.Log(nil, "warn", `Error when activating user`, err)
 		}
+		dbUser.BeforeCreate()
+		store.UpdateUser(dbUser.ID, dbUser)
 		utils.Log(nil, "info", "Checked")
 	}
 

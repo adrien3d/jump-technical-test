@@ -107,7 +107,9 @@ func (user *User) BeforeCreate() error {
 	user.Key = helpers.RandomString(40)
 	user.Email = strings.ToLower(user.Email)
 	user.LastModification = time.Now().Unix()
-	user.Status = "created"
+	if user.Status == "" {
+		user.Status = "created"
+	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
