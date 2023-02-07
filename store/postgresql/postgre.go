@@ -1,14 +1,17 @@
 package postgresql
 
 import (
+	"context"
 	"github.com/jinzhu/gorm"
 )
 
-type postgresql struct {
-	*gorm.DB
+type PSQL struct {
+	database *gorm.DB
+	dbName   string
+	context  context.Context
 }
 
 // New creates a database connexion
-func New(database *gorm.DB) *postgresql {
-	return &postgresql{database}
+func New(context context.Context, database *gorm.DB, dbName string) *PSQL {
+	return &PSQL{database, dbName, context}
 }

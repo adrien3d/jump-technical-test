@@ -4,7 +4,7 @@ import (
 	"crypto/rsa"
 	"encoding/base64"
 	"errors"
-	"github.com/adrien3d/things-api/utils"
+	"github.com/adrien3d/base-api/utils"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 )

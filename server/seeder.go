@@ -2,12 +2,13 @@ package server
 
 import (
 	"fmt"
-	"github.com/adrien3d/things-api/helpers/params"
-	"github.com/adrien3d/things-api/models"
-	"github.com/adrien3d/things-api/store"
-	"github.com/adrien3d/things-api/store/mongodb"
-	"github.com/adrien3d/things-api/store/postgresql"
-	"github.com/adrien3d/things-api/utils"
+	"github.com/adrien3d/base-api/helpers/params"
+	"github.com/adrien3d/base-api/models"
+	"github.com/adrien3d/base-api/store"
+	"github.com/adrien3d/base-api/store/mongodb"
+	"github.com/adrien3d/base-api/store/postgresql"
+	"github.com/adrien3d/base-api/utils"
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -85,7 +86,7 @@ func (a *API) SetupMongoSeeds() error {
 // SetupPostgreSeeds creates the first user
 func (a *API) SetupPostgreSeeds() error {
 	utils.Log(nil, "info", "Setup postgre seeds")
-	store := postgresql.New(a.PostgreDatabase)
+	store := postgresql.New(&gin.Context{}, a.PostgreDatabase, a.Config.GetString("POSTGRES_DB_NAME"))
 
 	user := &models.User{
 		FirstName: a.Config.GetString("admin_firstname"),
@@ -94,6 +95,7 @@ func (a *API) SetupPostgreSeeds() error {
 		Email:     a.Config.GetString("admin_email"),
 		Phone:     a.Config.GetString("admin_phone"),
 	}
+	user.BeforeCreate()
 	userExists, err := store.UserExists(user.Email)
 	if userExists {
 		utils.Log(nil, "warn", `Seed user already exists`, err)
@@ -106,13 +108,19 @@ func (a *API) SetupPostgreSeeds() error {
 	dbUser, err := store.GetUser(params.M{"email": a.Config.GetString("admin_email")})
 	if err != nil {
 		utils.Log(nil, "warn", err)
+	} else {
+		fmt.Println("Found user", dbUser.ID, ":", dbUser)
+		dbUser.FirstName = user.FirstName
+		dbUser.LastName = user.LastName
+		dbUser.Password = user.Password
+		dbUser.Email = user.Email
+		dbUser.Phone = user.Phone
+		store.UpdateUser(dbUser.ID, dbUser)
+		if err := store.ActivateUser(dbUser.Key /*strconv.Itoa(dbUser.ID)*/, dbUser.Email); err != nil {
+			utils.Log(nil, "warn", `Error when activating user`, err)
+		}
+		utils.Log(nil, "info", "Checked")
 	}
-	fmt.Println("Found user", dbUser.ID, ":", dbUser)
-
-	if err := store.ActivateUser(dbUser.Key /*strconv.Itoa(dbUser.ID)*/, dbUser.Email); err != nil {
-		utils.Log(nil, "warn", `Error when activating user`, err)
-	}
-	utils.Log(nil, "info", "Checked")
 
 	return nil
 }

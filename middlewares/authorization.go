@@ -1,10 +1,10 @@
 package middlewares
 
 import (
-	"github.com/adrien3d/things-api/config"
-	"github.com/adrien3d/things-api/helpers"
-	"github.com/adrien3d/things-api/models"
-	"github.com/adrien3d/things-api/store"
+	"github.com/adrien3d/base-api/config"
+	"github.com/adrien3d/base-api/helpers"
+	"github.com/adrien3d/base-api/models"
+	"github.com/adrien3d/base-api/store"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"strings"
