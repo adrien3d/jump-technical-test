@@ -101,6 +101,7 @@ func (db *PSQL) Update(c *store.Context, filter bson.M, model store.Model, opts 
 	utils.EnsurePointer(model)
 	store.EnsureGenericModel(model)
 
+	//https://gorm.io/docs/update.html
 	db.database.Model(&model).Updates(model)
 
 	return nil

@@ -66,7 +66,7 @@ func (db *PSQL) ActivateUser(activationKey string, email string) error {
 		return helpers.NewError(http.StatusBadRequest, "invalid_validation_code", "the provided activation code is invalid", nil)
 	}
 
-	if err := db.database.Model(&user).Update("active", true).Error; err != nil {
+	if err := db.database.Model(&user).Update("status", "activated").Error; err != nil {
 		return helpers.NewError(http.StatusInternalServerError, "update_user_failed", "could not update the user", err)
 	}
 	fmt.Println("Final user:", user)
