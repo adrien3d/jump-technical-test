@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"github.com/adrien3d/things-api/services"
+	"github.com/adrien3d/base-api/services"
 	"github.com/gin-gonic/gin"
 )
 

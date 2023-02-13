@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/adrien3d/things-api/models"
-	"github.com/adrien3d/things-api/utils"
+	"github.com/adrien3d/base-api/models"
+	"github.com/adrien3d/base-api/utils"
 	"github.com/matcornic/hermes/v2"
 	"github.com/sirupsen/logrus"
 	"time"

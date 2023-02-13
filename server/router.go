@@ -1,14 +1,14 @@
 package server
 
 import (
-	"github.com/adrien3d/things-api/config"
+	"github.com/adrien3d/base-api/config"
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/mongo"
 	"net/http"
 	"time"
 
-	"github.com/adrien3d/things-api/controllers"
-	"github.com/adrien3d/things-api/middlewares"
+	"github.com/adrien3d/base-api/controllers"
+	"github.com/adrien3d/base-api/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,8 +40,8 @@ func (a *API) SetupRouter() (mongoDB *mongo.Database, config *viper.Viper) {
 	switch dbType {
 	case "mongo":
 		router.Use(middlewares.StoreMongoMiddleware(a.MongoDatabase))
-		/*case "postgresql":
-		router.Use(middlewares.StorePostgreMiddleware(a.PostgreDatabase))*/
+	case "postgresql":
+		router.Use(middlewares.StorePostgreMiddleware(a.PostgreDatabase))
 	}
 
 	router.Use(middlewares.EmailMiddleware(a.EmailSender))

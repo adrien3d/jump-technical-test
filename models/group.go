@@ -2,8 +2,8 @@ package models
 
 import (
 	"errors"
-	"github.com/adrien3d/things-api/helpers"
-	"github.com/adrien3d/things-api/store"
+	"github.com/adrien3d/base-api/helpers"
+	"github.com/adrien3d/base-api/store"
 	"github.com/asaskevich/govalidator"
 	mgobson "github.com/globalsign/mgo/bson"
 	"github.com/sahilm/fuzzy"

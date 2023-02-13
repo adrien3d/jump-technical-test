@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"github.com/adrien3d/things-api/config"
-	"github.com/adrien3d/things-api/helpers"
-	"github.com/adrien3d/things-api/models"
-	"github.com/adrien3d/things-api/services"
-	"github.com/adrien3d/things-api/store"
-	"github.com/adrien3d/things-api/utils"
+	"github.com/adrien3d/base-api/config"
+	"github.com/adrien3d/base-api/helpers"
+	"github.com/adrien3d/base-api/models"
+	"github.com/adrien3d/base-api/services"
+	"github.com/adrien3d/base-api/store"
+	"github.com/adrien3d/base-api/utils"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"

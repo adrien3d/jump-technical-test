@@ -1,11 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"github.com/adrien3d/things-api/migrations"
-	"github.com/adrien3d/things-api/server"
-	"github.com/adrien3d/things-api/services"
-	"github.com/adrien3d/things-api/utils"
+	"github.com/adrien3d/base-api/models"
+	"github.com/adrien3d/base-api/server"
+	"github.com/adrien3d/base-api/services"
+	"github.com/adrien3d/base-api/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -58,11 +57,7 @@ func main() {
 		utils.CheckErr(err)
 		defer db.Close()
 
-		migrator := migrations.New(api)
-		err = migrator.Migrate()
-		if err != nil {
-			fmt.Println("migration error", err)
-		}
+		db.AutoMigrate(&models.User{})
 
 		err = api.SetupPostgreSeeds()
 		utils.CheckErr(err)

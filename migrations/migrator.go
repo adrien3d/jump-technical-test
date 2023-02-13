@@ -1,7 +1,7 @@
 package migrations
 
 import (
-	"github.com/adrien3d/things-api/server"
+	"github.com/adrien3d/base-api/server"
 	"gopkg.in/gormigrate.v1"
 )
 

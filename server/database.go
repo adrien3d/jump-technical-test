@@ -40,7 +40,7 @@ func (a *API) SetupMongoDatabase() (*mongo.Database, error) {
 // SetupPostgreDatabase establishes the connexion with the PostgreSQL database
 func (a *API) SetupPostgreDatabase() (*gorm.DB, error) {
 	connectionURI := fmt.Sprintf(
-		"sslmode=disable dbname=%s host=%s port=%s user=%s password=%s",
+		"dbname=%s host=%s port=%s user=%s password=%s sslmode=disable",
 		a.Config.GetString("postgres_db_name"),
 		a.Config.GetString("postgres_db_addr"),
 		a.Config.GetString("postgres_db_port"),

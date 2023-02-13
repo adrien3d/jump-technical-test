@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"bytes"
-	"github.com/adrien3d/things-api/utils"
+	"github.com/adrien3d/base-api/utils"
 	"github.com/gedex/inflector"
 	"github.com/serenize/snaker"
 	"go/format"

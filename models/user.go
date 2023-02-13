@@ -2,8 +2,8 @@ package models
 
 import (
 	"errors"
-	"github.com/adrien3d/things-api/helpers"
-	"github.com/adrien3d/things-api/store"
+	"github.com/adrien3d/base-api/helpers"
+	"github.com/adrien3d/base-api/store"
 	"github.com/asaskevich/govalidator"
 	mgobson "github.com/globalsign/mgo/bson"
 	"github.com/sirupsen/logrus"
@@ -107,7 +107,9 @@ func (user *User) BeforeCreate() error {
 	user.Key = helpers.RandomString(40)
 	user.Email = strings.ToLower(user.Email)
 	user.LastModification = time.Now().Unix()
-	user.Status = "created"
+	if user.Status == "" {
+		user.Status = "created"
+	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {

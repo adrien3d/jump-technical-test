@@ -2,21 +2,21 @@ package postgresql
 
 import (
 	"fmt"
-	"github.com/adrien3d/things-api/helpers"
-	"github.com/adrien3d/things-api/helpers/params"
-	"github.com/adrien3d/things-api/models"
+	"github.com/adrien3d/base-api/helpers"
+	"github.com/adrien3d/base-api/helpers/params"
+	"github.com/adrien3d/base-api/models"
 	"net/http"
 )
 
 // CreateUser checks if user already exists, and if not, creates it
-func (db *postgresql) CreateUser(user *models.User) error {
+func (db *PSQL) CreateUser(user *models.User) error {
 	var count int
-	if err := db.Model(user).Where("email = ?", user.Email).Count(&count).Error; err != nil || count > 0 {
+	if err := db.database.Model(user).Where("email = ?", user.Email).Count(&count).Error; err != nil || count > 0 {
 		fmt.Println("user_exists", err)
 		return helpers.NewError(http.StatusBadRequest, "user_exists", "the user already exists", err)
 	}
 
-	if err := db.Create(user).Error; err != nil {
+	if err := db.database.Create(user).Error; err != nil {
 		fmt.Println("user_creation_failed", err)
 		return helpers.NewError(http.StatusInternalServerError, "user_creation_failed", "could not create the user", err)
 	}
@@ -25,17 +25,17 @@ func (db *postgresql) CreateUser(user *models.User) error {
 }
 
 // GetUserByID allows to retrieve a user by its id
-func (db *postgresql) GetUserByID(id string) (*models.User, error) {
+func (db *PSQL) GetUserByID(id string) (*models.User, error) {
 	var user models.User
-	if err := db.Where("id = ?", id).First(&user).Error; err != nil {
+	if err := db.database.Where("id = ?", id).First(&user).Error; err != nil {
 		return nil, helpers.NewError(http.StatusNotFound, "user_not_found", "could not find the user", err)
 	}
 	return &user, nil
 }
 
 // GetUser allows to retrieve a user by its characteristics
-func (db *postgresql) GetUser(params params.M) (*models.User, error) {
-	session := db.New()
+func (db *PSQL) GetUser(params params.M) (*models.User, error) {
+	session := db.database.New()
 
 	var user models.User
 	for key, value := range params {
@@ -50,15 +50,15 @@ func (db *postgresql) GetUser(params params.M) (*models.User, error) {
 }
 
 // DeleteUser allows to delete a user by its id
-func (db *postgresql) DeleteUser(userID string) error {
+func (db *PSQL) DeleteUser(userID string) error {
 	return nil
 }
 
 // ActivateUser allows to activate a user by its id
-func (db *postgresql) ActivateUser(activationKey string, email string) error {
+func (db *PSQL) ActivateUser(activationKey string, email string) error {
 	var user models.User
 	fmt.Println("Trying to find user:", email, "with activationKey:", activationKey)
-	if err := db.Where("email = ?", email).First(&user).Error; err != nil {
+	if err := db.database.Where("email = ?", email).First(&user).Error; err != nil {
 		return helpers.NewError(http.StatusNotFound, "user_not_found", "could not find the user", err)
 	}
 
@@ -66,7 +66,7 @@ func (db *postgresql) ActivateUser(activationKey string, email string) error {
 		return helpers.NewError(http.StatusBadRequest, "invalid_validation_code", "the provided activation code is invalid", nil)
 	}
 
-	if err := db.Model(&user).Update("active", true).Error; err != nil {
+	if err := db.database.Model(&user).Update("status", "activated").Error; err != nil {
 		return helpers.NewError(http.StatusInternalServerError, "update_user_failed", "could not update the user", err)
 	}
 	fmt.Println("Final user:", user)
@@ -75,32 +75,35 @@ func (db *postgresql) ActivateUser(activationKey string, email string) error {
 }
 
 // ChangeLanguage allows to change a user language by its id
-func (db *postgresql) ChangeLanguage(id string, language string) error {
+func (db *PSQL) ChangeLanguage(id string, language string) error {
 	return nil
 }
 
 // UpdateUser allows to update one or more user characteristics
-func (db *postgresql) UpdateUser(userID string, params params.M) error {
+func (db *PSQL) UpdateUser(userID string, user *models.User) error {
+	if err := db.database.Model(user).Updates(&user).Error; err != nil {
+		return helpers.NewError(http.StatusInternalServerError, "update_user_failed", "could not update the user", err)
+	}
 	return nil
 }
 
 // GetUsers allows to get all users
-func (db *postgresql) GetUsers() ([]*models.User, error) {
+func (db *PSQL) GetUsers() ([]*models.User, error) {
 	var users []*models.User
-	db.Find(&users)
+	db.database.Find(&users)
 
 	return users, nil
 }
 
 // CountUsers allows to count all users
-func (db *postgresql) CountUsers() (int, error) {
+func (db *PSQL) CountUsers() (int, error) {
 	return 0, nil
 }
 
 // UserExists allows to know if a user exists through his mail
-func (db *postgresql) UserExists(userEmail string) (bool, error) {
+func (db *PSQL) UserExists(userEmail string) (bool, error) {
 	var user models.User
-	if err := db.Where("email = ?", userEmail).First(&user).Error; err == nil {
+	if err := db.database.Where("email = ?", userEmail).First(&user).Error; err == nil {
 		return true, nil
 	}
 	return false, nil

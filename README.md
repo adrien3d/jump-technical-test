@@ -1,4 +1,4 @@
-things-api
+base-api
 
 #TODO
 

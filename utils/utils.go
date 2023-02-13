@@ -2,7 +2,7 @@ package utils
 
 import (
 	"context"
-	"github.com/adrien3d/things-api/config"
+	"github.com/adrien3d/base-api/config"
 	"github.com/sirupsen/logrus"
 	"github.com/snwfdhmp/errlog"
 	"reflect"

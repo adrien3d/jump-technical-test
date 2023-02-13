@@ -1,9 +1,11 @@
 package middlewares
 
 import (
-	"github.com/adrien3d/things-api/config"
-	"github.com/adrien3d/things-api/store"
-	"github.com/adrien3d/things-api/store/mongodb"
+	"github.com/adrien3d/base-api/config"
+	"github.com/adrien3d/base-api/store"
+	"github.com/adrien3d/base-api/store/mongodb"
+	"github.com/adrien3d/base-api/store/postgresql"
+	"github.com/jinzhu/gorm"
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/gin-gonic/gin"
@@ -21,9 +23,9 @@ func StoreMongoMiddleware(db *mongo.Database) gin.HandlerFunc {
 }
 
 // StorePostgreMiddleware allows to setup SQL database
-/*func StorePostgreMiddleware(db *gorm.DB) gin.HandlerFunc {
+func StorePostgreMiddleware(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		store.ToContext(c, postgresql.New(db))
+		store.ToContext(c, postgresql.New(c, db, config.GetString(c, "postgres_db_name")))
 		c.Next()
 	}
-}*/
+}
