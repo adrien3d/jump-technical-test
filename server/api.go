@@ -2,7 +2,8 @@ package server
 
 import (
 	"database/sql"
-	"github.com/adrien3d/base-api/services"
+	"github.com/adrien3d/jump-technical-test/services"
+	"github.com/adrien3d/jump-technical-test/store"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"

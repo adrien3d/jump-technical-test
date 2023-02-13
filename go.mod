@@ -1,4 +1,4 @@
-module github.com/adrien3d/base-api
+module github.com/adrien3d/jump-technical-test
 
 go 1.19
 

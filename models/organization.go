@@ -2,9 +2,9 @@ package models
 
 import (
 	"errors"
-	"github.com/adrien3d/base-api/helpers"
-	"github.com/adrien3d/base-api/store"
-	"github.com/adrien3d/base-api/utils"
+	"github.com/adrien3d/jump-technical-test/helpers"
+	"github.com/adrien3d/jump-technical-test/store"
+	"github.com/adrien3d/jump-technical-test/utils"
 	"github.com/asaskevich/govalidator"
 	mgobson "github.com/globalsign/mgo/bson"
 	"github.com/sirupsen/logrus"

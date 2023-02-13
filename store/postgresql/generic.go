@@ -2,8 +2,8 @@ package postgresql
 
 import (
 	"fmt"
-	"github.com/adrien3d/base-api/store"
-	"github.com/adrien3d/base-api/utils"
+	"github.com/adrien3d/jump-technical-test/store"
+	"github.com/adrien3d/jump-technical-test/utils"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"

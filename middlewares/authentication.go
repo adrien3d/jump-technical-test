@@ -2,11 +2,11 @@ package middlewares
 
 import (
 	"errors"
-	"github.com/adrien3d/base-api/config"
-	"github.com/adrien3d/base-api/helpers"
-	"github.com/adrien3d/base-api/models"
-	"github.com/adrien3d/base-api/store"
-	"github.com/adrien3d/base-api/utils"
+	"github.com/adrien3d/jump-technical-test/config"
+	"github.com/adrien3d/jump-technical-test/helpers"
+	"github.com/adrien3d/jump-technical-test/models"
+	"github.com/adrien3d/jump-technical-test/store"
+	"github.com/adrien3d/jump-technical-test/utils"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"net/http"

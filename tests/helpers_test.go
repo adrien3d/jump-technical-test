@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/adrien3d/base-api/models"
-	"github.com/adrien3d/base-api/server"
+	"github.com/adrien3d/jump-technical-test/models"
+	"github.com/adrien3d/jump-technical-test/server"
 	"github.com/spf13/viper"
 )
 

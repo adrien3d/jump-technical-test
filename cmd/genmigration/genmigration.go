@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"bytes"
-	"github.com/adrien3d/base-api/utils"
+	"github.com/adrien3d/jump-technical-test/utils"
 	"github.com/gedex/inflector"
 	"github.com/serenize/snaker"
 	"go/format"

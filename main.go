@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/adrien3d/base-api/models"
-	"github.com/adrien3d/base-api/server"
-	"github.com/adrien3d/base-api/services"
-	"github.com/adrien3d/base-api/utils"
+	"github.com/adrien3d/jump-technical-test/models"
+	"github.com/adrien3d/jump-technical-test/server"
+	"github.com/adrien3d/jump-technical-test/services"
+	"github.com/adrien3d/jump-technical-test/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

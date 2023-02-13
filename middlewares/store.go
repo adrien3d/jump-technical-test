@@ -1,10 +1,10 @@
 package middlewares
 
 import (
-	"github.com/adrien3d/base-api/config"
-	"github.com/adrien3d/base-api/store"
-	"github.com/adrien3d/base-api/store/mongodb"
-	"github.com/adrien3d/base-api/store/postgresql"
+	"github.com/adrien3d/jump-technical-test/config"
+	"github.com/adrien3d/jump-technical-test/store"
+	"github.com/adrien3d/jump-technical-test/store/mongodb"
+	"github.com/adrien3d/jump-technical-test/store/postgresql"
 	"github.com/jinzhu/gorm"
 	"go.mongodb.org/mongo-driver/mongo"
 

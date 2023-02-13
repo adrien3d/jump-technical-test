@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"errors"
-	"github.com/adrien3d/base-api/helpers"
-	"github.com/adrien3d/base-api/models"
-	"github.com/adrien3d/base-api/store"
+	"github.com/adrien3d/jump-technical-test/helpers"
+	"github.com/adrien3d/jump-technical-test/models"
+	"github.com/adrien3d/jump-technical-test/store"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"

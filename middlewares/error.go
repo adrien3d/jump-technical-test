@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"github.com/adrien3d/base-api/helpers"
+	"github.com/adrien3d/jump-technical-test/helpers"
 	"github.com/gin-gonic/gin"
 )
 

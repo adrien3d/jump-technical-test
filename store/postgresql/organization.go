@@ -1,8 +1,8 @@
 package postgresql
 
 import (
-	"github.com/adrien3d/base-api/helpers/params"
-	"github.com/adrien3d/base-api/models"
+	"github.com/adrien3d/jump-technical-test/helpers/params"
+	"github.com/adrien3d/jump-technical-test/models"
 )
 
 // CreateOrganization checks if organization already exists, and if not, creates it

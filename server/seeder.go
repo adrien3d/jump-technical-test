@@ -2,12 +2,12 @@ package server
 
 import (
 	"fmt"
-	"github.com/adrien3d/base-api/helpers/params"
-	"github.com/adrien3d/base-api/models"
-	"github.com/adrien3d/base-api/store"
-	"github.com/adrien3d/base-api/store/mongodb"
-	"github.com/adrien3d/base-api/store/postgresql"
-	"github.com/adrien3d/base-api/utils"
+	"github.com/adrien3d/jump-technical-test/helpers/params"
+	"github.com/adrien3d/jump-technical-test/models"
+	"github.com/adrien3d/jump-technical-test/store"
+	"github.com/adrien3d/jump-technical-test/store/mongodb"
+	"github.com/adrien3d/jump-technical-test/store/postgresql"
+	"github.com/adrien3d/jump-technical-test/utils"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 )

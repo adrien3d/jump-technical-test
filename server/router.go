@@ -1,14 +1,12 @@
 package server
 
 import (
-	"github.com/adrien3d/base-api/config"
-	"github.com/spf13/viper"
-	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/adrien3d/jump-technical-test/config"
 	"net/http"
 	"time"
 
-	"github.com/adrien3d/base-api/controllers"
-	"github.com/adrien3d/base-api/middlewares"
+	"github.com/adrien3d/jump-technical-test/controllers"
+	"github.com/adrien3d/jump-technical-test/middlewares"
 
 	"github.com/gin-gonic/gin"
 )

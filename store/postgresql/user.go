@@ -2,9 +2,9 @@ package postgresql
 
 import (
 	"fmt"
-	"github.com/adrien3d/base-api/helpers"
-	"github.com/adrien3d/base-api/helpers/params"
-	"github.com/adrien3d/base-api/models"
+	"github.com/adrien3d/jump-technical-test/helpers"
+	"github.com/adrien3d/jump-technical-test/helpers/params"
+	"github.com/adrien3d/jump-technical-test/models"
 	"net/http"
 )
 

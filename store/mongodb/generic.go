@@ -3,8 +3,8 @@ package mongodb
 import (
 	"context"
 	"encoding/json"
-	"github.com/adrien3d/base-api/store"
-	"github.com/adrien3d/base-api/utils"
+	"github.com/adrien3d/jump-technical-test/store"
+	"github.com/adrien3d/jump-technical-test/utils"
 	"github.com/chidiwilliams/flatbson"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"

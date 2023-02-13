@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/adrien3d/base-api/models"
-	"github.com/adrien3d/base-api/utils"
+	"github.com/adrien3d/jump-technical-test/models"
+	"github.com/adrien3d/jump-technical-test/utils"
 	"github.com/matcornic/hermes/v2"
 	"github.com/sirupsen/logrus"
 	"time"

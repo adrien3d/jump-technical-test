@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	"github.com/adrien3d/base-api/utils"
+	"github.com/adrien3d/jump-technical-test/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/x/bsonx"
