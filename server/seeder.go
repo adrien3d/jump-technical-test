@@ -57,7 +57,7 @@ func (a *API) SetupMongoSeeds() error {
 		Balance:   123.45,
 	}
 
-	userExists, _, err := models.UserExists(ctx, user.Email)
+	userExists, user, err := models.UserExists(ctx, user.Email)
 	if userExists {
 		utils.Log(nil, "warn", `Seed user already exists`)
 	} else {
@@ -86,7 +86,7 @@ func (a *API) SetupMongoSeeds() error {
 func (a *API) SetupPostgreSeeds() error {
 	utils.Log(nil, "info", "Setup postgre seeds")
 	s := postgresql.New(&gin.Context{}, a.PostgreDatabase, a.Config.GetString("POSTGRES_DB_NAME"))
-	ctx := store.NewGodContext(s)
+	//ctx := store.NewGodContext(s)
 
 	organization := &models.Organization{
 		Name: a.Config.GetString("project_name"),
@@ -106,16 +106,17 @@ func (a *API) SetupPostgreSeeds() error {
 		Password:  a.Config.GetString("admin_password"),
 		Email:     a.Config.GetString("admin_email"),
 		Phone:     a.Config.GetString("admin_phone"),
+		Status:    "activated",
 		GroupID:   adminGroup.ID,
 		Balance:   123.45,
 	}
 	s.GetOrCreateUser(adminUser)
-	err := models.ActivateUser(ctx, adminUser.Key, adminUser.ID)
+	/*err := models.ActivateUser(ctx, adminUser.Key, adminUser.ID)
 	if err != nil {
 		utils.Log(nil, "warn", `ErrorInternal when activating user`, err)
 	} else {
 		utils.Log(nil, "info", "User well activated")
-	}
+	}*/
 
 	user1 := &models.User{
 		FirstName: a.Config.GetString("user1_firstname"),

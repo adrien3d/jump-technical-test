@@ -101,7 +101,7 @@ func (db *PSQL) FindAll(c *store.Context, filters bson.M, results interface{}, o
 }
 
 // Update a generic model
-func (db *PSQL) Update(c *store.Context, filters bson.A, model store.Model, opts ...store.UpdateOption) error {
+func (db *PSQL) Update(c *store.Context, filters bson.M, model store.Model, opts ...store.UpdateOption) error {
 	utils.EnsurePointer(model)
 	store.EnsureGenericModel(model)
 

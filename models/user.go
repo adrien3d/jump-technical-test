@@ -203,7 +203,9 @@ func UpdateUser(c *store.Context, userID string, newUser *User) error {
 
 // ActivateUser allows to activate a user by its id
 func ActivateUser(c *store.Context, activationKey string, id string) error {
-	err := c.Store.Update(c, bson.M{"$and": []bson.M{{"_id": id}, {"key": activationKey}}}, &User{Status: "activated"}, store.OnlyFields([]string{"status"}))
+	err := c.Store.Update(c, bson.M{"id": id, "key": activationKey}, &User{Status: "activated"}, store.OnlyFields([]string{"status"}))
+	//mongo: err := c.Store.Update(c, bson.M{"$and": []bson.M{{"id": id}, {"key": activationKey}}}, &User{Status: "activated"}, store.OnlyFields([]string{"status"}))
+	//psql arr: err := c.Store.Update(c, bson.A{bson.M{"id": id}, bson.M{"key": activationKey}}, &User{Status: "activated"}, store.OnlyFields([]string{"status"}))
 
 	if err != nil {
 		return helpers.NewError(http.StatusInternalServerError, "user_activation_failed", "Couldn't find the user to activate", err)
