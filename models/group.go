@@ -14,7 +14,7 @@ import (
 
 // Group type holds all required informations
 type Group struct {
-	store.DefaultRoles `bson:"-,omitempty"`
+	//store.DefaultRoles `bson:"-,omitempty"`
 	ID             string `json:"id" bson:"_id,omitempty" valid:"-"`
 	Name           string `json:"name" bson:"name" valid:"-"`
 	Role           string `json:"role" bson:"role" valid:"-"`
@@ -99,7 +99,7 @@ func CreateGroup(c *store.Context, group *Group) error {
 		return helpers.NewError(http.StatusConflict, "group_already_exists", "Group already exists", err)
 	}
 
-	err = c.Store.Create(c, group)
+	err = c.Store.Create(c, "groups", group)
 	if err != nil {
 		return helpers.NewError(http.StatusInternalServerError, "group_creation_failed", "Failed to insert the group in the database", err)
 	}

@@ -28,7 +28,7 @@ func (a *API) SetupMongoSeeds() error {
 	dbOrga := &models.Organization{}
 	if err := s.Find(ctx, bson.M{"name": organization.Name}, dbOrga); err == nil {
 		utils.Log(nil, "warn", `Organization:`, organization.Name, `already exists`)
-	} else if err := s.Create(ctx, organization); err != nil {
+	} else if err := s.Create(ctx, "", organization); err != nil {
 		utils.Log(nil, "err", `ErrorInternal when creating organization:`, err)
 	} else {
 		utils.Log(nil, "info", `Organization:`, organization.Name, `well created`)
@@ -41,7 +41,7 @@ func (a *API) SetupMongoSeeds() error {
 	}
 	if err := s.Find(ctx, bson.M{"name": group.Name}, group); err == nil {
 		utils.Log(nil, "warn", `Group:`, group.Name, `already exists`)
-	} else if err := s.Create(ctx, group); err != nil {
+	} else if err := s.Create(ctx, "", group); err != nil {
 		utils.Log(nil, "err", `ErrorInternal when creating group:`, group.Name, err)
 	} else {
 		utils.Log(nil, "info", "Group well created")
@@ -90,14 +90,14 @@ func (a *API) SetupPostgreSeeds() error {
 	organization := &models.Organization{
 		Name: a.Config.GetString("project_name"),
 	}
-	store.Create(a.Context, organization)
+	store.Create(a.Context, "", organization)
 
 	adminGroup := &models.Group{
 		Name:           a.Config.GetString("project_name") + " Admin",
 		Role:           "god",
 		OrganizationID: organization.ID,
 	}
-	store.Create(a.Context, adminGroup)
+	store.Create(a.Context, "", adminGroup)
 
 	adminUser := &models.User{
 		FirstName: a.Config.GetString("admin_firstname"),

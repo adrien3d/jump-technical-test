@@ -3,12 +3,11 @@ package server
 import (
 	"context"
 	"fmt"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
-
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres" // For postgre DB
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 type dbLogger struct{}
@@ -48,18 +47,10 @@ func (a *API) SetupPostgreDatabase() (*gorm.DB, error) {
 		a.Config.GetString("postgres_db_password"),
 	)
 
-	db, err := gorm.Open("postgres", connectionURI)
+	db, err := gorm.Open(postgres.Open(connectionURI), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
-
-	// Debug database logs
-	debugDatabase := a.Config.GetBool("debug_database")
-	db.LogMode(debugDatabase)
-
-	db.DB().SetConnMaxLifetime(time.Minute * 5)
-	db.DB().SetMaxIdleConns(5)
-	db.DB().SetMaxOpenConns(5)
 
 	a.PostgreDatabase = db
 	return db, nil

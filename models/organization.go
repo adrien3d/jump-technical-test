@@ -106,7 +106,7 @@ func CreateOrganization(c *store.Context, organization *Organization) error {
 		return helpers.NewError(http.StatusConflict, "organization_already_exists", "Organization already exists", err)
 	}
 
-	err = c.Store.Create(c, organization)
+	err = c.Store.Create(c, "organizations", organization)
 	if err != nil {
 		utils.Log(nil, "warn", err)
 		return helpers.NewError(http.StatusInternalServerError, "organization_creation_failed", "Failed to insert the organization in the database", err)

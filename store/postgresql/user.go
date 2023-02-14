@@ -11,7 +11,7 @@ import (
 
 // CreateUser checks if user already exists, and if not, creates it
 func (db *PSQL) CreateUser(user *models.User) error {
-	var count int
+	var count int64
 	if err := db.database.Model(user).Where("email = ?", user.Email).Count(&count).Error; err != nil || count > 0 {
 		return helpers.NewError(http.StatusBadRequest, "user_exists", "the user already exists", err)
 	}
@@ -34,7 +34,7 @@ func (db *PSQL) GetUserByID(id string) (*models.User, error) {
 
 // GetUser allows to retrieve a user by its characteristics
 func (db *PSQL) GetUser(params params.M) (*models.User, error) {
-	session := db.database.New()
+	session := db.database
 
 	var user models.User
 	for key, value := range params {

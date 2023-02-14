@@ -1,8 +1,8 @@
 package migrations
 
 import (
-	"github.com/jinzhu/gorm"
 	"gopkg.in/gormigrate.v1"
+	"gorm.io/gorm"
 )
 
 func init() {

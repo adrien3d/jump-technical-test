@@ -6,7 +6,7 @@ import (
 
 // Model represents a generic store model
 type Model interface {
-	RoleChecker
+	//RoleChecker
 }
 
 // GenericModel represents a generic mongo model

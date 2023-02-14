@@ -110,7 +110,7 @@ func ID(id string) bson.M {
 
 // Store interface
 type Store interface {
-	Create(*Context, Model) error
+	Create(*Context, string, Model) error
 	Find(*Context, bson.M, Model, ...FindOption) error
 	FindAll(*Context, bson.M, interface{}, ...FindOption) error
 	Update(*Context, bson.M, Model, ...UpdateOption) error

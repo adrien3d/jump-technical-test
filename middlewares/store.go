@@ -5,8 +5,8 @@ import (
 	"github.com/adrien3d/jump-technical-test/store"
 	"github.com/adrien3d/jump-technical-test/store/mongodb"
 	"github.com/adrien3d/jump-technical-test/store/postgresql"
-	"github.com/jinzhu/gorm"
 	"go.mongodb.org/mongo-driver/mongo"
+	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
 )

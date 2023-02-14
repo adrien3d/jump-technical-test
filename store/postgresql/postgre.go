@@ -2,7 +2,7 @@ package postgresql
 
 import (
 	"context"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type PSQL struct {

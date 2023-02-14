@@ -11,7 +11,7 @@ import (
 )
 
 // Create a generic model
-func (db *PSQL) Create(c *store.Context, model store.Model) error {
+func (db *PSQL) Create(c *store.Context, tableName string, model store.Model) error {
 	utils.EnsurePointer(model)
 	store.EnsureGenericModel(model)
 
@@ -26,7 +26,7 @@ func (db *PSQL) Create(c *store.Context, model store.Model) error {
 		}
 	}
 
-	res := db.database.Create(&model)
+	res := db.database.Table(tableName).Create(&model)
 	if res.Error != nil {
 		logrus.WithError(res.Error).Errorln("cannot insert model")
 		return errors.Wrap(res.Error, "cannot insert model")

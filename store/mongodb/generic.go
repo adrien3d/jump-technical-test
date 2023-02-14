@@ -49,7 +49,7 @@ func (db *Mngo) GetCollection(c *store.Context, model store.Model) *mongo.Collec
 }
 
 // Create a generic model
-func (db *Mngo) Create(c *store.Context, model store.Model) error {
+func (db *Mngo) Create(c *store.Context, collectionName string, model store.Model) error {
 	utils.EnsurePointer(model)
 	mongoModel := store.EnsureGenericModel(model)
 	collection := db.database.Collection(mongoModel.GetCollection())

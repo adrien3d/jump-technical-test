@@ -55,7 +55,6 @@ func main() {
 	case "postgresql":
 		db, err := api.SetupPostgreDatabase()
 		utils.CheckErr(err)
-		defer db.Close()
 
 		db.AutoMigrate(&models.Organization{})
 		db.AutoMigrate(&models.Group{})

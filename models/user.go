@@ -148,7 +148,7 @@ func CreateUser(c *store.Context, user *User) error {
 		return helpers.NewError(http.StatusConflict, "user_already_exists", "User already exists", nil)
 	}
 
-	err := c.Store.Create(c, user)
+	err := c.Store.Create(c, "users", user)
 	if err != nil {
 		return helpers.NewError(http.StatusInternalServerError, "user_creation_failed", "Failed to insert the user in the database", err)
 	}
