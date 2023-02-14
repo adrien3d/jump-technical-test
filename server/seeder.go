@@ -85,19 +85,20 @@ func (a *API) SetupMongoSeeds() error {
 // SetupPostgreSeeds creates the first user
 func (a *API) SetupPostgreSeeds() error {
 	utils.Log(nil, "info", "Setup postgre seeds")
-	store := postgresql.New(&gin.Context{}, a.PostgreDatabase, a.Config.GetString("POSTGRES_DB_NAME"))
+	s := postgresql.New(&gin.Context{}, a.PostgreDatabase, a.Config.GetString("POSTGRES_DB_NAME"))
+	ctx := store.NewGodContext(s)
 
 	organization := &models.Organization{
 		Name: a.Config.GetString("project_name"),
 	}
-	store.Create(a.Context, "", organization)
+	s.Create(a.Context, "", organization)
 
 	adminGroup := &models.Group{
 		Name:           a.Config.GetString("project_name") + " Admin",
 		Role:           "god",
 		OrganizationID: organization.ID,
 	}
-	store.Create(a.Context, "", adminGroup)
+	s.Create(a.Context, "", adminGroup)
 
 	adminUser := &models.User{
 		FirstName: a.Config.GetString("admin_firstname"),
@@ -108,7 +109,32 @@ func (a *API) SetupPostgreSeeds() error {
 		GroupID:   adminGroup.ID,
 		Balance:   123.45,
 	}
-	store.GetOrCreateUser(adminUser)
+	s.GetOrCreateUser(adminUser)
+	err := models.ActivateUser(ctx, adminUser.Key, adminUser.ID)
+	if err != nil {
+		utils.Log(nil, "warn", `ErrorInternal when activating user`, err)
+	} else {
+		utils.Log(nil, "info", "User well activated")
+	}
+
+	user1 := &models.User{
+		FirstName: a.Config.GetString("user1_firstname"),
+		LastName:  a.Config.GetString("user1_lastname"),
+		Password:  a.Config.GetString("user1_password"),
+		Email:     a.Config.GetString("user1_email"),
+		Balance:   a.Config.GetFloat64("user1_balance"),
+		GroupID:   adminGroup.ID,
+	}
+	s.GetOrCreateUser(user1)
+	user2 := &models.User{
+		FirstName: a.Config.GetString("user2_firstname"),
+		LastName:  a.Config.GetString("user2_lastname"),
+		Password:  a.Config.GetString("user2_password"),
+		Email:     a.Config.GetString("user2_email"),
+		Balance:   a.Config.GetFloat64("user2_balance"),
+		GroupID:   adminGroup.ID,
+	}
+	s.GetOrCreateUser(user2)
 
 	return nil
 }

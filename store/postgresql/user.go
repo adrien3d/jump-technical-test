@@ -64,11 +64,12 @@ func (db *PSQL) GetOrCreateUser(user *models.User) (*models.User, error) {
 			if err := db.ActivateUser(dbUser.Key /*strconv.Itoa(dbUser.ID)*/, dbUser.Email); err != nil {
 				utils.Log(nil, "warn", `Error when activating user`, err)
 			}
-			dbUser.BeforeCreate(true, true, true)
+			dbUser.BeforeCreate(db.database, true, true, true)
 			db.UpdateUser(dbUser.ID, dbUser)
 			fmt.Println("Found user", dbUser.ID, ":", dbUser)
 		}
 	}
+	user.BeforeCreate(db.database, false, false, false)
 	return user, db.CreateUser(user)
 }
 

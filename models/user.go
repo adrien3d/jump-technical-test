@@ -9,6 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 	"net/http"
 	"strings"
 	"time"
@@ -103,7 +104,7 @@ func FindUser(dbUsers []*User, userID string) (ret *User, err error) {
 }
 
 // BeforeCreate validates object struct
-func (user *User) BeforeCreate(keepId, keepKey, keepPassword bool) error {
+func (user *User) BeforeCreate(tx *gorm.DB, keepId, keepKey, keepPassword bool) error {
 	if !keepId {
 		user.ID = mgobson.NewObjectId().Hex()
 	}

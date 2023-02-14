@@ -26,7 +26,7 @@ func (db *PSQL) Create(c *store.Context, tableName string, model store.Model) er
 		}
 	}
 
-	res := db.database.Table(tableName).Create(&model)
+	res := db.database.Table(tableName).Create(model)
 	if res.Error != nil {
 		logrus.WithError(res.Error).Errorln("cannot insert model")
 		return errors.Wrap(res.Error, "cannot insert model")
@@ -91,18 +91,37 @@ func (db *PSQL) FindAll(c *store.Context, filters bson.M, results interface{}, o
 		}
 		i++
 	}
-	db.database.Where(filtersQuery, filtersValues).Find(results) // find product with code D42)
+	if len(filtersQuery) <= 2 {
+		db.database.Find(results)
+	} else {
+		db.database.Where(filtersQuery, filtersValues).Find(results)
+	}
 
 	return nil
 }
 
 // Update a generic model
-func (db *PSQL) Update(c *store.Context, filter bson.M, model store.Model, opts ...store.UpdateOption) error {
+func (db *PSQL) Update(c *store.Context, filters bson.A, model store.Model, opts ...store.UpdateOption) error {
 	utils.EnsurePointer(model)
 	store.EnsureGenericModel(model)
 
-	//https://gorm.io/docs/update.html
-	db.database.Model(&model).Updates(model)
+	var filtersQuery string
+	var filtersValues []string
+	var i int
+	for key, value := range filters {
+		filtersValues = append(filtersValues, fmt.Sprint(value))
+		if i == 0 {
+			filtersQuery += key + " = ?"
+		} else {
+			filtersQuery += " AND " + key + " = ?"
+		}
+		i++
+	}
+	if len(filtersQuery) <= 2 {
+		return errors.New("Missing filter to update")
+	} else {
+		db.database.Model(&model).Where(filtersQuery, filtersValues).Updates(model)
+	}
 
 	return nil
 }
