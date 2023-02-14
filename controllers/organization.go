@@ -41,31 +41,6 @@ func (oc OrganizationController) CreateOrganization(c *gin.Context) {
 	}
 }
 
-// GetOrganizationsIndex to get organizations index
-func (oc OrganizationController) GetOrganizationsIndex(c *gin.Context) {
-	ctx := store.AuthContext(c)
-	dbOrganizations, err := models.GetOrganizations(ctx, bson.M{})
-	if oc.Error(c, err, helpers.ErrorResourceNotFound) {
-		return
-	}
-
-	organizationsIndex := int64(0)
-	for _, organization := range dbOrganizations {
-		if organization.Index > organizationsIndex {
-			organizationsIndex = organization.Index
-		}
-	}
-
-	if _, group, ok := oc.LoggedUser(c); ok {
-		switch group.GetRole() {
-		case store.RoleGod, store.RoleAdmin:
-			c.JSON(http.StatusOK, organizationsIndex)
-		case store.RoleUser, store.RoleCustomer:
-			oc.AbortWithError(c, helpers.ErrorUserUnauthorized)
-		}
-	}
-}
-
 // GetOrganizations to get all organizations
 func (oc OrganizationController) GetOrganizations(c *gin.Context) {
 	ctx := store.AuthContext(c)

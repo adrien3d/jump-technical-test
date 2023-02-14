@@ -51,37 +51,6 @@ func (gc GroupController) CreateGroup(c *gin.Context) {
 	}
 }
 
-// GetGroupsIndex to get groups index
-func (gc GroupController) GetGroupsIndex(c *gin.Context) {
-	ctx := store.AuthContext(c)
-	dbGroups, err := models.GetGroups(ctx, bson.M{})
-	if err != nil {
-		gc.AbortWithError(c, helpers.ErrorResourceNotFound(err))
-	}
-
-	groupIndex := int64(0)
-	for _, group := range dbGroups {
-		if group.Index > groupIndex {
-			groupIndex = group.Index
-		}
-	}
-
-	if _, group, ok := gc.LoggedUser(c); ok {
-		userGroup, err := models.GetGroup(ctx, bson.M{"_id": group.GetID()})
-		if err != nil {
-			gc.AbortWithError(c, helpers.ErrorResourceNotFound(err))
-			return
-		}
-
-		switch userGroup.Role {
-		case store.RoleGod, store.RoleAdmin:
-			c.JSON(http.StatusOK, groupIndex)
-		case store.RoleUser, store.RoleCustomer:
-			gc.AbortWithError(c, helpers.ErrorUserUnauthorized)
-		}
-	}
-}
-
 // GetGroups to get all groups
 func (gc GroupController) GetGroups(c *gin.Context) {
 	ctx := store.AuthContext(c)

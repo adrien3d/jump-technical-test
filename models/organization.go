@@ -16,8 +16,7 @@ import (
 // Organization type holds all required information
 type Organization struct {
 	store.DefaultRoles `bson:"-,omitempty"`
-	ID                 string `json:"id" bson:"_id,omitempty" valid:"-"`
-	Index              int64  `json:"index" bson:"index" valid:"-"`
+	ID                 string `json:"id" bson:"id,omitempty" valid:"-"`
 	Name               string `json:"name" bson:"name" valid:"-"`
 	LogoURL            string `json:"logo_url,omitempty" bson:"logo_url,omitempty" valid:"-"`
 	Siret              int64  `json:"siret,omitempty" bson:"siret,omitempty" valid:"-"`

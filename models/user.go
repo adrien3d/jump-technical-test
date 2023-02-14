@@ -30,11 +30,11 @@ type User struct {
 	Email              string  `json:"email" bson:"email" valid:"email,required"`
 	Address            string  `json:"address,omitempty" bson:"address,omitempty" valid:"-"`
 	Status             string  `json:"status" bson:"status" valid:"-"`
-	Phone              string  `json:"phone" bson:"phone" valid:"-"`
+	Phone              string  `json:"phone,omitempty" bson:"phone,omitempty" valid:"-"`
 	Language           string  `json:"language,omitempty" bson:"language,omitempty" valid:"-"`
-	Key                string  `json:"key" bson:"key" valid:"-"`
-	LastLogin          int64   `json:"last_login" bson:"last_login" valid:"-"`
-	LastModification   int64   `json:"last_modification" bson:"last_modification" valid:"-"`
+	Key                string  `json:"key,omitempty" bson:"key,omitempty" valid:"-"`
+	LastLogin          int64   `json:"last_login,omitempty" bson:"last_login,omitempty" valid:"-"`
+	LastModification   int64   `json:"last_modification,omitempty" bson:"last_modification,omitempty" valid:"-"`
 	GroupID            string  `json:"group_id" bson:"group_id" valid:"-"`
 	Balance            float64 `json:"balance" bson:"balance" valid:"-"`
 }

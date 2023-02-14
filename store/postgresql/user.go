@@ -5,6 +5,7 @@ import (
 	"github.com/adrien3d/jump-technical-test/helpers"
 	"github.com/adrien3d/jump-technical-test/helpers/params"
 	"github.com/adrien3d/jump-technical-test/models"
+	"github.com/adrien3d/jump-technical-test/utils"
 	"net/http"
 )
 
@@ -12,12 +13,10 @@ import (
 func (db *PSQL) CreateUser(user *models.User) error {
 	var count int
 	if err := db.database.Model(user).Where("email = ?", user.Email).Count(&count).Error; err != nil || count > 0 {
-		fmt.Println("user_exists", err)
 		return helpers.NewError(http.StatusBadRequest, "user_exists", "the user already exists", err)
 	}
 
 	if err := db.database.Create(user).Error; err != nil {
-		fmt.Println("user_creation_failed", err)
 		return helpers.NewError(http.StatusInternalServerError, "user_creation_failed", "could not create the user", err)
 	}
 
@@ -47,6 +46,30 @@ func (db *PSQL) GetUser(params params.M) (*models.User, error) {
 	}
 
 	return &user, nil
+}
+
+func (db *PSQL) GetOrCreateUser(user *models.User) (*models.User, error) {
+	if err := db.database.Where("email = ?", user.Email).First(&user).Error; err != nil {
+		utils.Log(nil, "warn", `User already exists`, err)
+		dbUser, err := db.GetUser(params.M{"email": user.Email})
+		if err != nil {
+			utils.Log(nil, "warn", err)
+		} else {
+			dbUser.FirstName = user.FirstName
+			dbUser.LastName = user.LastName
+			dbUser.Password = user.Password
+			dbUser.Email = user.Email
+			dbUser.Phone = user.Phone
+			dbUser.Balance = user.Balance
+			if err := db.ActivateUser(dbUser.Key /*strconv.Itoa(dbUser.ID)*/, dbUser.Email); err != nil {
+				utils.Log(nil, "warn", `Error when activating user`, err)
+			}
+			dbUser.BeforeCreate(true, true, true)
+			db.UpdateUser(dbUser.ID, dbUser)
+			fmt.Println("Found user", dbUser.ID, ":", dbUser)
+		}
+	}
+	return user, db.CreateUser(user)
 }
 
 // DeleteUser allows to delete a user by its id

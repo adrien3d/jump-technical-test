@@ -15,11 +15,10 @@ import (
 // Group type holds all required informations
 type Group struct {
 	store.DefaultRoles `bson:"-,omitempty"`
-	ID                 string `json:"id" bson:"_id,omitempty" valid:"-"`
-	Index              int64  `json:"index" bson:"index" valid:"-"`
-	Name               string `json:"name" bson:"name" valid:"-"`
-	Role               string `json:"role" bson:"role" valid:"-"`
-	OrganizationID     string `json:"organization_id" bson:"organization_id" valid:"-"`
+	ID             string `json:"id" bson:"_id,omitempty" valid:"-"`
+	Name           string `json:"name" bson:"name" valid:"-"`
+	Role           string `json:"role" bson:"role" valid:"-"`
+	OrganizationID string `json:"organization_id" bson:"organization_id" valid:"-"`
 }
 
 // GetID returns ID
