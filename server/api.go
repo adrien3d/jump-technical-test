@@ -14,6 +14,7 @@ import (
 type API struct {
 	Router          *gin.Engine
 	Config          *viper.Viper
+	Context         *store.Context
 	MongoDatabase   *mongo.Database
 	PostgreDatabase *gorm.DB
 	MySQLDatabase   *sql.DB

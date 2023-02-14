@@ -102,22 +102,28 @@ func FindUser(dbUsers []*User, userID string) (ret *User, err error) {
 }
 
 // BeforeCreate validates object struct
-func (user *User) BeforeCreate() error {
-	user.ID = mgobson.NewObjectId().Hex()
-	user.Key = helpers.RandomString(40)
+func (user *User) BeforeCreate(keepId, keepKey, keepPassword bool) error {
+	if !keepId {
+		user.ID = mgobson.NewObjectId().Hex()
+	}
+	if !keepKey {
+		user.Key = helpers.RandomString(40)
+	}
 	user.Email = strings.ToLower(user.Email)
 	user.LastModification = time.Now().Unix()
 	if user.Status == "" {
 		user.Status = "created"
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return helpers.NewError(http.StatusInternalServerError, "encryption_failed", "Failed to generate the crypted password", err)
+	if !keepPassword {
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+		if err != nil {
+			return helpers.NewError(http.StatusInternalServerError, "encryption_failed", "Failed to generate the crypted password", err)
+		}
+		user.Password = string(hashedPassword) //user.Password
 	}
-	user.Password = string(hashedPassword)
 
-	_, err = govalidator.ValidateStruct(user)
+	_, err := govalidator.ValidateStruct(user)
 	if err != nil {
 		return helpers.NewError(http.StatusBadRequest, "input_not_valid", err.Error(), err)
 	}

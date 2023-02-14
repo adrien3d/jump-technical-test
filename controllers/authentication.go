@@ -86,6 +86,10 @@ func (ac AuthController) TokensGeneration(c *gin.Context) {
 		utils.Log(c, "info", "CompareHashAndPassword err:", err)
 		return
 	}
+	/*if dbUser.Password != userInput.Password {
+		utils.Log(c, "info", "CompareHashAndPassword er")
+		return
+	}*/
 
 	if dbUser.Status == "created" {
 		ac.AbortWithError(c, helpers.ErrorUserNotActivated(nil))

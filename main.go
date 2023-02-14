@@ -57,6 +57,8 @@ func main() {
 		utils.CheckErr(err)
 		defer db.Close()
 
+		db.AutoMigrate(&models.Organization{})
+		db.AutoMigrate(&models.Group{})
 		db.AutoMigrate(&models.User{})
 
 		err = api.SetupPostgreSeeds()

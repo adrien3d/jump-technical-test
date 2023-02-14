@@ -17,7 +17,7 @@ func Index(c *gin.Context) {
 }
 
 // SetupRouter is the main routing point
-func (a *API) SetupRouter() (mongoDB *mongo.Database, config *viper.Viper) {
+func (a *API) SetupRouter() {
 	router := a.Router
 
 	router.Use(middlewares.ErrorMiddleware())
@@ -102,5 +102,5 @@ func (a *API) SetupRouter() (mongoDB *mongo.Database, config *viper.Viper) {
 			groups.GET("/me", groupController.GetUserGroup)
 		}
 	}
-	return a.MongoDatabase, a.Config
+	return
 }

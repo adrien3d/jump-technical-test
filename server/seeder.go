@@ -95,33 +95,45 @@ func (a *API) SetupPostgreSeeds() error {
 		Email:     a.Config.GetString("admin_email"),
 		Phone:     a.Config.GetString("admin_phone"),
 	}
-	user.BeforeCreate()
+	user.BeforeCreate(false, false, false)
 	userExists, err := store.UserExists(user.Email)
 	if userExists {
 		utils.Log(nil, "warn", `Seed user already exists`, err)
+		dbUser, err := store.GetUser(params.M{"email": a.Config.GetString("admin_email")})
+		if err != nil {
+			utils.Log(nil, "warn", err)
+		} else {
+			dbUser.FirstName = user.FirstName
+			dbUser.LastName = user.LastName
+			dbUser.Password = user.Password
+			dbUser.Email = user.Email
+			dbUser.Phone = user.Phone
+			if err := store.ActivateUser(dbUser.Key /*strconv.Itoa(dbUser.ID)*/, dbUser.Email); err != nil {
+				utils.Log(nil, "warn", `Error when activating user`, err)
+			}
+			dbUser.BeforeCreate(true, true, true)
+			store.UpdateUser(dbUser.ID, dbUser)
+			fmt.Println("Found user", dbUser.ID, ":", dbUser)
+		}
 	} else {
 		if err := store.CreateUser(user); err != nil {
 			utils.Log(nil, "warn", `Error when creating user:`, err)
+		} else {
+			utils.Log(nil, "warn", `User well created`, err)
 		}
 	}
 
-	dbUser, err := store.GetUser(params.M{"email": a.Config.GetString("admin_email")})
-	if err != nil {
-		utils.Log(nil, "warn", err)
-	} else {
-		fmt.Println("Found user", dbUser.ID, ":", dbUser)
-		dbUser.FirstName = user.FirstName
-		dbUser.LastName = user.LastName
-		dbUser.Password = user.Password
-		dbUser.Email = user.Email
-		dbUser.Phone = user.Phone
-		if err := store.ActivateUser(dbUser.Key /*strconv.Itoa(dbUser.ID)*/, dbUser.Email); err != nil {
-			utils.Log(nil, "warn", `Error when activating user`, err)
-		}
-		dbUser.BeforeCreate()
-		store.UpdateUser(dbUser.ID, dbUser)
-		utils.Log(nil, "info", "Checked")
+	organization := &models.Organization{
+		Name: a.Config.GetString("project_name"),
 	}
+	store.Create(a.Context, organization)
+
+	adminGroup := &models.Group{
+		Name:           a.Config.GetString("project_name") + " Admin",
+		Role:           "god",
+		OrganizationID: organization.ID,
+	}
+	store.Create(a.Context, adminGroup)
 
 	return nil
 }
