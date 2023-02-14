@@ -23,19 +23,20 @@ type UserAuth struct {
 // User type holds all required information
 type User struct {
 	store.DefaultRoles `bson:"-,omitempty"`
-	ID                 string `json:"id" bson:"_id,omitempty" valid:"-"`
-	FirstName          string `json:"first_name" bson:"first_name" valid:"-"`
-	LastName           string `json:"last_name" bson:"last_name" valid:"-"`
-	Password           string `json:"password" bson:"password" valid:"required"`
-	Email              string `json:"email" bson:"email" valid:"email,required"`
-	Address            string `json:"address,omitempty" bson:"address,omitempty" valid:"-"`
-	Status             string `json:"status" bson:"status" valid:"-"`
-	Phone              string `json:"phone" bson:"phone" valid:"-"`
-	Language           string `json:"language,omitempty" bson:"language,omitempty" valid:"-"`
-	Key                string `json:"key" bson:"key" valid:"-"`
-	LastLogin          int64  `json:"last_login" bson:"last_login" valid:"-"`
-	LastModification   int64  `json:"last_modification" bson:"last_modification" valid:"-"`
-	GroupID            string `json:"group_id" bson:"group_id" valid:"-"`
+	ID                 string  `json:"id" bson:"id,omitempty" valid:"-"`
+	FirstName          string  `json:"first_name" bson:"first_name" valid:"-"`
+	LastName           string  `json:"last_name" bson:"last_name" valid:"-"`
+	Password           string  `json:"password" bson:"password" valid:"required"`
+	Email              string  `json:"email" bson:"email" valid:"email,required"`
+	Address            string  `json:"address,omitempty" bson:"address,omitempty" valid:"-"`
+	Status             string  `json:"status" bson:"status" valid:"-"`
+	Phone              string  `json:"phone" bson:"phone" valid:"-"`
+	Language           string  `json:"language,omitempty" bson:"language,omitempty" valid:"-"`
+	Key                string  `json:"key" bson:"key" valid:"-"`
+	LastLogin          int64   `json:"last_login" bson:"last_login" valid:"-"`
+	LastModification   int64   `json:"last_modification" bson:"last_modification" valid:"-"`
+	GroupID            string  `json:"group_id" bson:"group_id" valid:"-"`
+	Balance            float64 `json:"balance" bson:"balance" valid:"-"`
 }
 
 // GetID returns ID

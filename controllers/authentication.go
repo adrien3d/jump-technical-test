@@ -50,8 +50,7 @@ func (ac AuthController) returnToken(c *gin.Context, encodedKey []byte, dbUser *
 		return
 	}
 
-	err = ctx.Store.Update(ctx, store.ID(dbUser.ID), &models.User{LastLogin: time.Now().Unix()},
-		store.OnlyFields([]string{"last_login"}))
+	err = ctx.Store.Update(ctx, store.ID(dbUser.ID), &models.User{LastLogin: time.Now().Unix()}, store.OnlyFields([]string{"last_login"}))
 	if ac.ErrorInternal(c, err) {
 		return
 	}

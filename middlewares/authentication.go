@@ -32,10 +32,10 @@ func AuthenticationMiddleware() gin.HandlerFunc {
 		}
 
 		ctx := store.AuthContext(c)
-		user, _ := models.GetUser(ctx, bson.M{"_id": claims["sub"].(string)})
+		user, _ := models.GetUser(ctx, bson.M{"id": claims["sub"].(string)})
 		//logrus.Infoln("looking for: " + claims["sub"].(string) + " Got user: " + fmt.Sprint(user))
 		c.Set(store.CurrentUserKey, user)
-		group, err := models.GetGroup(ctx, bson.M{"_id": user.GroupID})
+		group, err := models.GetGroup(ctx, bson.M{"id": user.GroupID})
 		if err != nil {
 			utils.Log(c, "error", "Group not found")
 		}
