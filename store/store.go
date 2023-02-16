@@ -105,7 +105,7 @@ func GetUpdateOptions(opts ...UpdateOption) UpdateOptions {
 
 // ID is a shortcut for creating an id filter
 func ID(id string) bson.M {
-	return bson.M{"_id": id}
+	return bson.M{"id": id}
 }
 
 // Store interface

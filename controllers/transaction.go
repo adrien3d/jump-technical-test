@@ -43,6 +43,10 @@ func (tc TransactionController) CreateTransaction(c *gin.Context) {
 					//Invoice already paid => 422
 					tc.AbortWithError(c, helpers.ErrorUnprocessableEntity(err))
 				} else {
+					//Create Transaction
+					if err := models.CreateTransaction(ctx, transactionInput); err != nil {
+						tc.AbortWithError(c, helpers.ErrorInternal(err))
+					}
 					//Credit user balance
 					if user, err := models.GetUser(ctx, bson.M{"id": invoice.UserID}); err != nil {
 						tc.AbortWithError(c, helpers.ErrorResourceNotFound(err))
