@@ -13,7 +13,7 @@ import (
 // Create a generic model
 func (db *PSQL) Create(c *store.Context, tableName string, model store.Model) error {
 	utils.EnsurePointer(model)
-	store.EnsureGenericModel(model)
+	//store.EnsureGenericModel(model)
 
 	if creator, ok := model.(store.BeforeCreator); ok {
 		if err := creator.BeforeCreate(); err != nil {
@@ -38,7 +38,7 @@ func (db *PSQL) Create(c *store.Context, tableName string, model store.Model) er
 // Find return a generic model
 func (db *PSQL) Find(c *store.Context, filters bson.M, model store.Model, opts ...store.FindOption) error {
 	utils.EnsurePointer(model)
-	store.EnsureGenericModel(model)
+	//store.EnsureGenericModel(model)
 
 	/*var sortQuery, sortValues string
 	// apply sort
@@ -103,7 +103,7 @@ func (db *PSQL) FindAll(c *store.Context, filters bson.M, results interface{}, o
 // Update a generic model
 func (db *PSQL) Update(c *store.Context, filters bson.M, model store.Model, opts ...store.UpdateOption) error {
 	utils.EnsurePointer(model)
-	store.EnsureGenericModel(model)
+	//store.EnsureGenericModel(model)
 
 	var filtersQuery string
 	var filtersValues []string
@@ -129,7 +129,7 @@ func (db *PSQL) Update(c *store.Context, filters bson.M, model store.Model, opts
 // Delete a generic model
 func (db *PSQL) Delete(c *store.Context, id string, model store.Model) error {
 	utils.EnsurePointer(model)
-	store.EnsureGenericModel(model)
+	//store.EnsureGenericModel(model)
 
 	db.database.Delete(&model)
 
@@ -139,7 +139,7 @@ func (db *PSQL) Delete(c *store.Context, id string, model store.Model) error {
 // DeleteAll a generic model
 func (db *PSQL) DeleteAll(c *store.Context, filter bson.M, model store.Model) (int64, error) {
 	utils.EnsurePointer(model)
-	store.EnsureGenericModel(model)
+	//store.EnsureGenericModel(model)
 
 	db.database.Delete(&model)
 

@@ -99,6 +99,20 @@ func (a *API) SetupRouter() {
 			groups.GET("/:id", groupController.GetGroup)
 			groups.GET("/me", groupController.GetUserGroup)
 		}
+
+		invoices := v1.Group("/invoices")
+		{
+			invoiceController := controllers.NewInvoiceController()
+			invoices.Use(authenticationMiddleware)
+			invoices.POST("/", invoiceController.CreateInvoice)
+		}
+
+		transactions := v1.Group("/transactions")
+		{
+			transactionController := controllers.NewTransactionController()
+			transactions.Use(authenticationMiddleware)
+			transactions.POST("/", transactionController.CreateTransaction)
+		}
 	}
 	return
 }

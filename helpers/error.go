@@ -79,4 +79,7 @@ var (
 	ErrorFileOpening = declare("file_opening_error", http.StatusNotAcceptable, "File opening error")
 	// ErrorFileParsing occurs when file parsing fails
 	ErrorFileParsing = declare("file_parsing_error", http.StatusNotAcceptable, "File parsing error")
+
+	//ErrorUnprocessableEntity occurs when an internal rule fails to process entity
+	ErrorUnprocessableEntity = declare("unprocessable_entity", http.StatusUnprocessableEntity, "Fail to process entity")
 )
