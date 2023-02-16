@@ -1,6 +1,6 @@
 FROM golang:latest
 
-ENV LUMEN_ENV prod
+ENV SAM_ENV prod
 ENV GIN_MODE release
 ENV GO111MODULE on
 
